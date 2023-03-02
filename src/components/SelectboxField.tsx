@@ -8,7 +8,6 @@ const SelectboxField: FunctionComponent<SelectProps> = ({
   option,
 }) => {
   const { selected, onChange } = useSelectbox({ source });
-  console.log(selected[source]);
 
   return (
     <div style={{ display: "flex", gridGap: "8px" }}>

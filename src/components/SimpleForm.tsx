@@ -18,8 +18,26 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [error, setError] = useState(true);
 
   const value = useMemo(
-    () => ({ setValues, values, setChecked, checked, setSelected, selected, error, setError }),
-    [setValues, values, setChecked, checked, setSelected, selected]
+    () => ({
+      setValues,
+      values,
+      setChecked,
+      checked,
+      setSelected,
+      selected,
+      error,
+      setError,
+    }),
+    [
+      setValues,
+      values,
+      setChecked,
+      checked,
+      setSelected,
+      selected,
+      error,
+      setError,
+    ]
   );
 
   const onClick = (e: any) => {

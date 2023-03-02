@@ -5,7 +5,7 @@ export interface InputProps {
   label: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  validate?: ((v?: any) => boolean)[];
+  validate: ((v?: any) => boolean)[];
   errorText: string;
 }
 

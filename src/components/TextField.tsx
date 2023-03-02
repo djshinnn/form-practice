@@ -12,12 +12,14 @@ const TextField: FunctionComponent<InputProps> = ({
 }) => {
   const { value, onChange, error } = useInput({ source, validate });
 
+  console.log(error);
+
   return (
     <div>
       <div style={{ display: "flex", gridGap: "8px" }}>
         <label htmlFor={source}>{label}</label>
         <input
-          value={value}
+          value={value || ""}
           onChange={(e) => onChange(e.target.value)}
           name={source}
           type={type}
