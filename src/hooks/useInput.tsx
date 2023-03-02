@@ -17,13 +17,19 @@ function useInput(props: UseInputProps) {
   );
 
   useEffect(() => {
-    props.validate.forEach((validateFunc) => {
-      const hasError = validateFunc(values[props.source]);
-      setError(hasError);
-    });
-  }, [values]);
+    // # solution 1
+    // const errors = props.validate.map((validateFunc) =>
+    //   validateFunc(values[props.source])
+    // );
+    // const e = errors.find((error) => error !== undefined);
+    // setError({ ...error, [props.source]: e });
 
-  console.log(error);
+    // # solution 2
+    const errors = props.validate.map((validateFunc) =>
+      validateFunc(values[props.source])
+    );
+    setError((prevError: {}) => ({ ...prevError, [props.source]: errors }));
+  }, [values]);
 
   return { value: values[props.source], onChange, error };
 }

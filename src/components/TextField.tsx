@@ -12,8 +12,6 @@ const TextField: FunctionComponent<InputProps> = ({
 }) => {
   const { value, onChange, error } = useInput({ source, validate });
 
-  console.log(error);
-
   return (
     <div>
       <div style={{ display: "flex", gridGap: "8px" }}>
@@ -26,7 +24,15 @@ const TextField: FunctionComponent<InputProps> = ({
           placeholder={placeholder}
         />
       </div>
-      {error && <p style={{ color: "red" }}>{errorText}</p>}
+      {error[source] !== undefined &&
+        error[source].map(
+          (error: boolean, idx: number) =>
+            error && (
+              <p key={idx} style={{ color: "red" }}>
+                {errorText}
+              </p>
+            )
+        )}
     </div>
   );
 };
