@@ -15,7 +15,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [values, setValues] = useState({});
   const [checked, setChecked] = useState({});
   const [selected, setSelected] = useState({});
-  const [error, setError] = useState(true);
+  const [error, setError] = useState({});
 
   const value = useMemo(
     () => ({
@@ -45,11 +45,15 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     alert(JSON.stringify({ values, checked, selected }));
   };
 
+  const isButtonDisabled = Object.values(error).some((errorValues: any) =>
+    errorValues.some((error: boolean) => error === true)
+  );
+
   return (
     <FormContext.Provider value={value}>
       <form>
         {children}
-        <button type={"submit"} onClick={onClick}>
+        <button type={"submit"} onClick={onClick} disabled={isButtonDisabled}>
           제출
         </button>
       </form>

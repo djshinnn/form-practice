@@ -18,16 +18,18 @@ function useInput(props: UseInputProps) {
 
   useEffect(() => {
     // # solution 1
-    // const errors = props.validate.map((validateFunc) => validateFunc(values[props.source]));
-    // const e = errors.find(error => error !== undefined);
-    // setError({...error, [props.source]: e});
+    // const errors = props.validate.map((validateFunc) =>
+    //   validateFunc(values[props.source])
+    // );
+    // const e = errors.find((error) => error !== undefined);
+    // setError({ ...error, [props.source]: e });
 
     // # solution 2
-    // const errors = props.validate.map((validateFunc) => validateFunc(values[props.source]));
-    // setError((prevError) => ({...prevError, [props.source]: errors}));
+    const errors = props.validate.map((validateFunc) =>
+      validateFunc(values[props.source])
+    );
+    setError((prevError: {}) => ({ ...prevError, [props.source]: errors }));
   }, [values]);
-
-  console.log(error);
 
   return { value: values[props.source], onChange, error };
 }
