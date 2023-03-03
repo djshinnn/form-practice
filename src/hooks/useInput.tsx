@@ -8,6 +8,11 @@ function useInput(props: UseInputProps) {
   const { setValues, values, setError, error } = useContext(FormContext);
   const onChange = useCallback(
     (v: string | number) => {
+      const errors = props.validate.map((validateFunc) =>
+          validateFunc(values[props.source])
+      );
+      setError((prevError: {}) => ({ ...prevError, [props.source]: errors.filter(error => error !== undefined) }));
+
       setValues({
         ...values,
         [props.source]: v,
@@ -15,21 +20,6 @@ function useInput(props: UseInputProps) {
     },
     [values, props.source]
   );
-
-  useEffect(() => {
-    // # solution 1
-    // const errors = props.validate.map((validateFunc) =>
-    //   validateFunc(values[props.source])
-    // );
-    // const e = errors.find((error) => error !== undefined);
-    // setError({ ...error, [props.source]: e });
-
-    // # solution 2
-    const errors = props.validate.map((validateFunc) =>
-      validateFunc(values[props.source])
-    );
-    setError((prevError: {}) => ({ ...prevError, [props.source]: errors }));
-  }, [values]);
 
   return { value: values[props.source], onChange, error };
 }

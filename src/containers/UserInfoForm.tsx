@@ -11,7 +11,6 @@ function UserInfoForm(): JSX.Element {
         source={"name"}
         label={"이름"}
         validate={[min(5), max(10)]}
-        errorText={`올바른 이름을 입력해주세요.`}
       />
       <TextField
         type="password"
