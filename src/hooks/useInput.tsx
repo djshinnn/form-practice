@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { InputProps } from "../types/InputProps";
 import { FormContext } from "../components/SimpleForm";
 
@@ -9,9 +9,12 @@ function useInput(props: UseInputProps) {
   const onChange = useCallback(
     (v: string | number) => {
       const errors = props.validate.map((validateFunc) =>
-          validateFunc(values[props.source])
+        validateFunc(values[props.source])
       );
-      setError((prevError: {}) => ({ ...prevError, [props.source]: errors.filter(error => error !== undefined) }));
+      setError((prevError: {}) => ({
+        ...prevError,
+        [props.source]: errors.filter((error) => error !== undefined),
+      }));
 
       setValues({
         ...values,
@@ -20,6 +23,16 @@ function useInput(props: UseInputProps) {
     },
     [values, props.source]
   );
+
+  // useEffect(() => {
+  //   const errors = props.validate.map((validateFunc) =>
+  //     validateFunc(values[props.source])
+  //   );
+  //   setError((prevError: {}) => ({
+  //     ...prevError,
+  //     [props.source]: errors.filter((error) => error !== undefined),
+  //   }));
+  // }, [values]);
 
   return { value: values[props.source], onChange, error };
 }

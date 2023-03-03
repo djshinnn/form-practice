@@ -25,7 +25,8 @@ const TextField: FunctionComponent<InputProps> = ({
           placeholder={placeholder}
         />
       </div>
-      {(error[source] !== undefined && error[source].length !== 0) &&
+      {error[source] !== undefined &&
+        error[source].length !== 0 &&
         error[source].map(
           (error: boolean, idx: number) =>
             error && (
