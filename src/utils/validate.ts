@@ -1,6 +1,5 @@
 // min(5)
 export const min = (min: number) => (value: string) => {
-  console.log(value);
   if (value !== undefined && min > value.length) {
     return `${min}글자 이상 입력해주세요`;
   }
