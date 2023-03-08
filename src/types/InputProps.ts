@@ -5,8 +5,7 @@ export interface InputProps {
   label: string;
   placeholder?: string;
   type?: HTMLInputTypeAttribute;
-  validate?: ((v?: any) => boolean)[];
-  errorText: string;
+  validate?: ((v?: any) => string | undefined)[];
 }
 
 export interface CheckboxProps {

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import useSelectbox from "../hooks/useSelectbox";
+import useInput from "../hooks/useInput";
 import { SelectProps } from "../types/InputProps";
 
 const SelectboxField: FunctionComponent<SelectProps> = ({
@@ -7,16 +7,12 @@ const SelectboxField: FunctionComponent<SelectProps> = ({
   label,
   option,
 }) => {
-  const { selected, onChange } = useSelectbox({ source });
-  console.log(selected[source]);
+  const { onChange } = useInput({ source });
 
   return (
     <div style={{ display: "flex", gridGap: "8px" }}>
       <label htmlFor={source}>{label}</label>
-      <select
-        value={selected[source]}
-        onChange={(e) => onChange(e.target.value)}
-      >
+      <select onChange={(e) => onChange(e.target.value)}>
         {option.map((item, idx) => (
           <option key={idx} value={item}>
             {item}

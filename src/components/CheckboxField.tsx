@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from "react";
-import useCheckBox from "../hooks/useCheckbox";
+import useInput from "../hooks/useInput";
 import { CheckboxProps } from "../types/InputProps";
 
 const CheckboxField: FunctionComponent<CheckboxProps> = ({ source, label }) => {
-  const { checked, onChange } = useCheckBox({ source });
+  const { onChange } = useInput({ source });
 
   return (
     <div style={{ display: "flex", gridGap: "8px" }}>
       <label htmlFor={source}>{label}</label>
       <input
         type="checkbox"
-        checked={checked[source]}
         onChange={(e) => {
           onChange(e.target.checked);
         }}

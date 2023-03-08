@@ -1,37 +1,48 @@
-import { createContext, PropsWithChildren, useMemo, useState } from "react";
+import React, {
+  createContext,
+  PropsWithChildren,
+  useMemo,
+  useState,
+} from "react";
 
 export const FormContext = createContext({
   setValues: (v: any) => {},
   values: {} as Record<string, any>,
   error: {} as Record<string, any>,
   setError: (error: any) => {},
-  setChecked: (v: any) => {},
-  checked: {} as Record<string, any>,
-  setSelected: (v: any) => {},
-  selected: {} as Record<string, any>,
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   const [values, setValues] = useState({});
-  const [checked, setChecked] = useState({});
-  const [selected, setSelected] = useState({});
-  const [error, setError] = useState(true);
-
-  const value = useMemo(
-    () => ({ setValues, values, setChecked, checked, setSelected, selected, error, setError }),
-    [setValues, values, setChecked, checked, setSelected, selected]
+  const [error, setError] = useState<{ [key: string]: string[] | undefined }>(
+    {}
   );
 
-  const onClick = (e: any) => {
+  const value = useMemo(
+    () => ({
+      setValues,
+      values,
+      error,
+      setError,
+    }),
+    [setValues, values, error, setError]
+  );
+
+  const onClick = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(JSON.stringify({ values, checked, selected }));
+    alert(JSON.stringify({ values }));
   };
+
+  const isButtonDisabled = Object.values(error).some(
+    (errorValues: string[] | undefined) =>
+      errorValues !== undefined && errorValues.length > 0
+  );
 
   return (
     <FormContext.Provider value={value}>
       <form>
         {children}
-        <button type={"submit"} onClick={onClick}>
+        <button type={"submit"} onClick={onClick} disabled={isButtonDisabled}>
           제출
         </button>
       </form>

@@ -1,32 +1,28 @@
-import React, {useState, useEffect, useCallback, useContext} from "react";
-import {InputProps} from "../types/InputProps";
-import {FormContext} from "../components/SimpleForm";
-import {isValidate} from "../utils/validate";
+import React, { useCallback, useContext, useEffect } from "react";
+import { InputProps } from "../types/InputProps";
+import { FormContext } from "../components/SimpleForm";
 
-interface UseInputProps extends Pick<InputProps, "source" | "validate"> {
-}
+interface UseInputProps extends Pick<InputProps, "source" | "validate"> {}
 
 function useInput(props: UseInputProps) {
-    const {setValues, values, error, setError} = useContext(FormContext);
-    const onChange = useCallback(
-        (v: string | number) => {
-            setValues({
-                ...values,
-                [props.source]: v,
-            });
-        },
-        [values, props.source]
-    );
+  const { setValues, values, setError, error } = useContext(FormContext);
 
-    useEffect(() => {
-        // [min(5), max(10)]
-        props.validate.forEach(validateFunc => {
-            const hasError = validateFunc(values[props.source]) // min(5)
-            setError(hasError);
-        })
-    }, [props, setError, values]);
+  const onChange = useCallback(
+    (v: string | number | boolean) => {
+      const errors = props.validate?.map((validateFunc) => validateFunc(v));
+      setError((prevError: {}) => ({
+        ...prevError,
+        [props.source]: errors?.filter((error) => error !== undefined),
+      }));
 
-    return {value: values[props.source], onChange, error};
+      setValues({
+        ...values,
+        [props.source]: v,
+      });
+    },
+    [values, props.source]
+  );
+  return { value: values[props.source], onChange, error };
 }
 
 export default useInput;
