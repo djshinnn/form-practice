@@ -1,4 +1,9 @@
-import { createContext, PropsWithChildren, useMemo, useState } from "react";
+import React, {
+  createContext,
+  PropsWithChildren,
+  useMemo,
+  useState,
+} from "react";
 
 export const FormContext = createContext({
   setValues: (v: any) => {},
@@ -8,7 +13,10 @@ export const FormContext = createContext({
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    input: {},
+    checked: {},
+  });
   const [error, setError] = useState({});
 
   const value = useMemo(
@@ -21,24 +29,20 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
     [setValues, values, error, setError]
   );
 
-  const onClick = (e: any) => {
+  const onClick = (e: React.FormEvent) => {
     e.preventDefault();
     alert(JSON.stringify({ values }));
   };
 
-  const isButtonDisabled = () => {
-    if (Object.values(value).some((value: any) => value?.length > 0)) {
-      return Object.values(error).some(
-        (errorValues: any) => errorValues.length > 0
-      );
-    } else return true;
-  };
+  const isButtonDisabled = Object.values(error).some(
+    (errorValues: string[]) => errorValues.length > 0
+  );
 
   return (
     <FormContext.Provider value={value}>
       <form>
         {children}
-        <button type={"submit"} onClick={onClick} disabled={isButtonDisabled()}>
+        <button type={"submit"} onClick={onClick} disabled={isButtonDisabled}>
           제출
         </button>
       </form>

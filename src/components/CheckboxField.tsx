@@ -3,7 +3,7 @@ import useInput from "../hooks/useInput";
 import { CheckboxProps } from "../types/InputProps";
 
 const CheckboxField: FunctionComponent<CheckboxProps> = ({ source, label }) => {
-  const { value, onChange } = useInput({ source });
+  const { onChange } = useInput({ source });
 
   return (
     <div style={{ display: "flex", gridGap: "8px" }}>
