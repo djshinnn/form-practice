@@ -13,11 +13,10 @@ export const FormContext = createContext({
 });
 
 const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
-  const [values, setValues] = useState({
-    input: {},
-    checked: {},
-  });
-  const [error, setError] = useState({});
+  const [values, setValues] = useState({});
+  const [error, setError] = useState<{ [key: string]: string[] | undefined }>(
+    {}
+  );
 
   const value = useMemo(
     () => ({
@@ -35,7 +34,8 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   };
 
   const isButtonDisabled = Object.values(error).some(
-    (errorValues: string[]) => errorValues.length > 0
+    (errorValues: string[] | undefined) =>
+      errorValues !== undefined && errorValues.length > 0
   );
 
   return (
