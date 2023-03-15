@@ -34,8 +34,7 @@ const SimpleForm = ({ children }: PropsWithChildren<{}>) => {
   };
 
   const isButtonDisabled = Object.values(error).some(
-    (errorValues: string[] | undefined) =>
-      errorValues !== undefined && errorValues.length > 0
+    (errorValues: string[] | undefined) => (errorValues?.length ?? 0) > 0
   );
 
   return (
