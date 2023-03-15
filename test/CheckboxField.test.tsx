@@ -1,0 +1,3 @@
+describe('CheckboxField component', () => {
+    it('')
+})
