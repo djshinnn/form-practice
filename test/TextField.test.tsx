@@ -21,27 +21,52 @@ describe("TextField component", () => {
     expect(getByPlaceholderText("Enter your name")).toBeInTheDocument();
   });
 
-  it("should render error message when input value is less than 3 characters", () => {
-    const _minNum = 3;
+  it("show error message", () => {
+    const minLength = 3;
+    const maxLength = 5;
     const { getByLabelText, getByText } = render(
       <SimpleForm>
-        <TextField source={"name"} label={"name"} validate={[min(_minNum)]} />
+        <TextField
+          source={"name"}
+          label={"name"}
+          validate={[min(minLength), max(maxLength)]}
+        />
       </SimpleForm>
     );
     const input = getByLabelText("name");
     fireEvent.change(input, { target: { value: "ab" } });
-    expect(getByText(`${_minNum}글자 이상 입력해주세요`)).toBeInTheDocument();
+    expect(getByText(`${minLength}글자 이상 입력해주세요`)).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: "abcdef" } });
+    expect(
+      getByText(`${maxLength}글자 이하로 입력해주세요`)
+    ).toBeInTheDocument();
   });
 
-  it("should render error message when input value is more than 5 characters", () => {
-    const _maxNum = 5;
-    const { getByLabelText, getByText } = render(
-      <SimpleForm>
-        <TextField source={"name"} label={"name"} validate={[max(_maxNum)]} />
-      </SimpleForm>
-    );
-    const input = getByLabelText("name");
-    fireEvent.change(input, { target: { value: "abcdef" } });
-    expect(getByText(`${_maxNum}글자 이하로 입력해주세요`)).toBeInTheDocument();
+  describe("min", () => {
+    const minLength = 3;
+
+    it("returns an error message if the value is shorter than the minimum length", () => {
+      const result = min(minLength)("ab");
+      expect(result).toBe(`${minLength}글자 이상 입력해주세요`);
+    });
+
+    it("returns undefined if the value is equal to or longer than the minimum length", () => {
+      const result = min(minLength)("abc");
+      expect(result).toBe(undefined);
+    });
+  });
+
+  describe("max", () => {
+    const maxLength = 5;
+
+    it("returns an error message if the value is longer than the maximum length", () => {
+      const result = max(maxLength)("abcdef");
+      expect(result).toBe(`${maxLength}글자 이하로 입력해주세요`);
+    });
+
+    it("returns undefined if the value is equal to or shorter than the maximum length", () => {
+      const result = max(maxLength)("abcde");
+      expect(result).toBe(undefined);
+    });
   });
 });
