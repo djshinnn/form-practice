@@ -22,24 +22,26 @@ describe("TextField component", () => {
   });
 
   it("should render error message when input value is less than 3 characters", () => {
-    const { getByLabelText } = render(
+    const _minNum = 3;
+    const { getByLabelText, getByText } = render(
       <SimpleForm>
-        <TextField source={"name"} label={"name"} validate={[min(3)]} />
+        <TextField source={"name"} label={"name"} validate={[min(_minNum)]} />
       </SimpleForm>
     );
     const input = getByLabelText("name");
     fireEvent.change(input, { target: { value: "ab" } });
-    expect(getByLabelText("name")).toBeInTheDocument();
+    expect(getByText(`${_minNum}글자 이상 입력해주세요`)).toBeInTheDocument();
   });
 
   it("should render error message when input value is more than 5 characters", () => {
-    const { getByLabelText } = render(
+    const _maxNum = 5;
+    const { getByLabelText, getByText } = render(
       <SimpleForm>
-        <TextField source={"name"} label={"name"} validate={[max(5)]} />
+        <TextField source={"name"} label={"name"} validate={[max(_maxNum)]} />
       </SimpleForm>
     );
     const input = getByLabelText("name");
     fireEvent.change(input, { target: { value: "abcdef" } });
-    expect(getByLabelText("name")).toBeInTheDocument();
+    expect(getByText(`${_maxNum}글자 이하로 입력해주세요`)).toBeInTheDocument();
   });
 });
