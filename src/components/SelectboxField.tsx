@@ -12,7 +12,7 @@ const SelectboxField: FunctionComponent<SelectProps> = ({
   return (
     <div style={{ display: "flex", gridGap: "8px" }}>
       <label htmlFor={source}>{label}</label>
-      <select onChange={(e) => onChange(e.target.value)}>
+      <select id={source} onChange={(e) => onChange(e.target.value)}>
         {option.map((item, idx) => (
           <option key={idx} value={item}>
             {item}

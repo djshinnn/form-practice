@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 import React from "react";
-import {render, fireEvent, act, getByLabelText} from "@testing-library/react";
-import SimpleForm, { FormContext } from "../src/components/SimpleForm";
+import { render, fireEvent } from "@testing-library/react";
+import SimpleForm from "../src/components/SimpleForm";
 import TextField from "../src/components/TextField";
-import {max, min} from "../src/utils/validate";
+import { max, min } from "../src/utils/validate";
 
 describe("SimpleForm component", () => {
   it("should render TextField", () => {
@@ -36,13 +36,13 @@ describe("SimpleForm component", () => {
     // 오류가 있을 때 Submit 버튼이 올바르게 비활성되는지 확인
     const spy = jest.spyOn(global, "alert").mockImplementation(() => {});
 
-    const { getByLabelText, getByText, getByRole } = render(
+    const { getByLabelText, getByText } = render(
       <SimpleForm>
         <TextField source={"name"} label={"name"} validate={[min(3), max(5)]} />
       </SimpleForm>
     );
 
-    fireEvent.change(getByLabelText('name'), { target: { value: "Jo" } });
+    fireEvent.change(getByLabelText("name"), { target: { value: "Jo" } });
     fireEvent.click(getByText("제출"));
 
     expect(spy).not.toHaveBeenCalled();

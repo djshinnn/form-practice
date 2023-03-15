@@ -9,6 +9,7 @@ const CheckboxField: FunctionComponent<CheckboxProps> = ({ source, label }) => {
     <div style={{ display: "flex", gridGap: "8px" }}>
       <label htmlFor={source}>{label}</label>
       <input
+        id={source}
         type="checkbox"
         onChange={(e) => {
           onChange(e.target.checked);
